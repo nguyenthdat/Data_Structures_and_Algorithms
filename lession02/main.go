@@ -50,6 +50,29 @@ func (l *DoublyLinkedList) prepend(data string) {
 	}
 }
 
+func (l *DoublyLinkedList) addNodeAfter(data string, key string) {
+	current_node := l.head
+	var new_node Node
+	for current_node != nil {
+		if current_node.next == nil && current_node.data == key {
+			l.append(data)
+			return
+		} else if current_node.data == key {
+			new_node.data = data
+			next_node := current_node.next
+			current_node.next = &new_node
+			new_node.next = next_node
+			next_node.prev = &new_node
+			new_node.prev = current_node
+		}
+		current_node = current_node.next
+	}
+}
+
+func (l *DoublyLinkedList) addNodeBefore(data string, key string) {
+
+}
+
 func (l *DoublyLinkedList) print_list() {
 	current_node := l.head
 	for current_node != nil {
@@ -66,5 +89,6 @@ func main() {
 	dlst.append("c")
 	dlst.append("d")
 	dlst.prepend("e")
+	dlst.addNodeAfter("f", "b")
 	dlst.print_list()
 }
