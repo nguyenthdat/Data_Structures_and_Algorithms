@@ -7,14 +7,14 @@ import (
 )
 
 func main() {
-	slice := []int{13, 11, 12, 7, 4, 3, 1, 0}
-	fmt.Println(locateCard(slice, 7))
+	cards := []int{13, 11, 12, 7, 4, 3, 1, 0}
+	fmt.Println(locateCard(cards, 7))
 }
 
-func locateCard(slice []int, index int) int {
-	sort.Sort(sort.Reverse(sort.IntSlice(slice))) // To sort in descending order, we use sort.Reverse function.
-	for i, v := range slice {
-		if v == index {
+func locateCard(cards []int, query int) int {
+	sort.Sort(sort.Reverse(sort.IntSlice(cards))) // To sort in descending order, we use sort.Reverse function.
+	for i, v := range cards {
+		if v == query {
 			return i
 		}
 	}
