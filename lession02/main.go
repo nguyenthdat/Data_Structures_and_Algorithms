@@ -8,7 +8,7 @@ import (
 type Node struct {
 	next *Node
 	prev *Node
-	data string
+	data int
 }
 
 type DoublyLinkedList struct {
@@ -16,7 +16,7 @@ type DoublyLinkedList struct {
 	//tail *Node
 }
 
-func (l *DoublyLinkedList) append(data string) {
+func (l *DoublyLinkedList) append(data int) {
 	var new_node Node
 	if l.head == nil {
 		new_node.data = data
@@ -35,7 +35,7 @@ func (l *DoublyLinkedList) append(data string) {
 	}
 }
 
-func (l *DoublyLinkedList) prepend(data string) {
+func (l *DoublyLinkedList) prepend(data int) {
 	var new_node Node
 	if l.head == nil {
 		new_node.data = data
@@ -50,7 +50,7 @@ func (l *DoublyLinkedList) prepend(data string) {
 	}
 }
 
-func (l *DoublyLinkedList) addNodeAfter(data string, key string) {
+func (l *DoublyLinkedList) addNodeAfter(data int, key int) {
 	current_node := l.head
 	var new_node Node
 	for current_node != nil {
@@ -70,7 +70,7 @@ func (l *DoublyLinkedList) addNodeAfter(data string, key string) {
 	}
 }
 
-func (l *DoublyLinkedList) addNodeBefore(data string, key string) {
+func (l *DoublyLinkedList) addNodeBefore(data int, key int) {
 	current_node := l.head
 	var new_node Node
 	for current_node != nil {
@@ -90,7 +90,7 @@ func (l *DoublyLinkedList) addNodeBefore(data string, key string) {
 	}
 }
 
-func (l *DoublyLinkedList) delete(key string) {
+func (l *DoublyLinkedList) delete(key int) {
 	current_node := l.head
 	for current_node != nil {
 		if current_node.data == key && current_node == l.head {
@@ -179,7 +179,7 @@ func (l *DoublyLinkedList) reverse() {
 
 func (l *DoublyLinkedList) removeDuplicates() {
 	current_node := l.head
-	seen := make(map[string]int)
+	seen := make(map[int]int)
 	for current_node != nil {
 		if _, ok := seen[current_node.data]; !ok {
 			seen[current_node.data] = 1
@@ -190,6 +190,23 @@ func (l *DoublyLinkedList) removeDuplicates() {
 			current_node = next_node
 		}
 	}
+}
+
+func (l *DoublyLinkedList) pairsWithSum(sum int) []string {
+	var pairs []string
+	right := l.head
+	var left *Node
+	for right != nil {
+		left = right.next
+		for left != nil {
+			if right.data+left.data == sum {
+				pairs = append(pairs, fmt.Sprintf("(%d, %d)", right.data, left.data))
+			}
+			left = left.next
+		}
+		right = right.next
+	}
+	return pairs
 }
 
 func (l *DoublyLinkedList) print_list() {
@@ -203,15 +220,11 @@ func (l *DoublyLinkedList) print_list() {
 
 func main() {
 	var dlst DoublyLinkedList
-	dlst.append("1")
-	dlst.append("2")
-	dlst.append("3")
-	dlst.append("4")
-	dlst.append("4")
-	dlst.append("4")
-	dlst.append("2")
-	dlst.append("3")
-	dlst.removeDuplicates()
-	dlst.print_list()
+	dlst.append(1)
+	dlst.append(2)
+	dlst.append(3)
+	dlst.append(4)
+	dlst.append(5)
+	fmt.Println(dlst.pairsWithSum(5))
 
 }
