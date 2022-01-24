@@ -90,7 +90,7 @@ func (l *DoublyLinkedList) addNodeBefore(data string, key string) {
 	}
 }
 
-func (l *DoublyLinkedList) deleteNode(key string) {
+func (l *DoublyLinkedList) delete(key string) {
 	current_node := l.head
 	for current_node != nil {
 		if current_node.data == key && current_node == l.head {
@@ -126,6 +126,42 @@ func (l *DoublyLinkedList) deleteNode(key string) {
 		current_node = current_node.next
 	}
 }
+func (l *DoublyLinkedList) deleteNode(node *Node) {
+	current_node := l.head
+	for current_node != nil {
+		if current_node == node && current_node == l.head {
+			// Case 1
+			if current_node.next == nil {
+				current_node = nil
+				l.head = nil
+				return
+			} else { // Case 2
+				next_node := current_node.next
+				current_node.next = nil
+				current_node = nil
+				next_node.prev = nil
+				l.head = next_node
+				return
+			}
+		} else if current_node == node {
+			if current_node.next != nil { // Case 3
+				next_node := current_node.next
+				prev_node := current_node.prev
+				prev_node.next = next_node
+				next_node.prev = prev_node
+				current_node.prev, current_node.next, current_node = nil, nil, nil
+				return
+			} else { // Case 4
+				prev_node := current_node.prev
+				prev_node.next = nil
+				current_node.prev = nil
+				current_node = nil
+				return
+			}
+		}
+		current_node = current_node.next
+	}
+}
 
 func (l *DoublyLinkedList) reverse() {
 	current_node := l.head
@@ -138,6 +174,21 @@ func (l *DoublyLinkedList) reverse() {
 	}
 	if tmp_node != nil {
 		l.head = tmp_node.prev
+	}
+}
+
+func (l *DoublyLinkedList) removeDuplicates() {
+	current_node := l.head
+	seen := make(map[string]int)
+	for current_node != nil {
+		if _, ok := seen[current_node.data]; !ok {
+			seen[current_node.data] = 1
+			current_node = current_node.next
+		} else {
+			next_node := current_node.next
+			l.deleteNode(current_node)
+			current_node = next_node
+		}
 	}
 }
 
@@ -156,9 +207,11 @@ func main() {
 	dlst.append("2")
 	dlst.append("3")
 	dlst.append("4")
-	dlst.print_list()
-	fmt.Println()
-	dlst.reverse()
+	dlst.append("4")
+	dlst.append("4")
+	dlst.append("2")
+	dlst.append("3")
+	dlst.removeDuplicates()
 	dlst.print_list()
 
 }
