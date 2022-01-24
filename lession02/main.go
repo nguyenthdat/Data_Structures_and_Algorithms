@@ -90,6 +90,43 @@ func (l *DoublyLinkedList) addNodeBefore(data string, key string) {
 	}
 }
 
+func (l *DoublyLinkedList) deleteNode(key string) {
+	current_node := l.head
+	for current_node != nil {
+		if current_node.data == key && current_node == l.head {
+			// Case 1
+			if current_node.next == nil {
+				current_node = nil
+				l.head = nil
+				return
+			} else { // Case 2
+				next_node := current_node.next
+				current_node.next = nil
+				current_node = nil
+				next_node.prev = nil
+				l.head = next_node
+				return
+			}
+		} else if current_node.data == key {
+			if current_node.next != nil { // Case 3
+				next_node := current_node.next
+				prev_node := current_node.prev
+				prev_node.next = next_node
+				next_node.prev = prev_node
+				current_node.prev, current_node.next, current_node = nil, nil, nil
+				return
+			} else { // Case 4
+				prev_node := current_node.prev
+				prev_node.next = nil
+				current_node.prev = nil
+				current_node = nil
+				return
+			}
+		}
+		current_node = current_node.next
+	}
+}
+
 func (l *DoublyLinkedList) print_list() {
 	current_node := l.head
 	for current_node != nil {
@@ -101,13 +138,10 @@ func (l *DoublyLinkedList) print_list() {
 
 func main() {
 	var dlst DoublyLinkedList
-	dlst.append("a")
-	dlst.append("b")
-	dlst.append("c")
-	dlst.append("d")
-	dlst.prepend("e")
-	dlst.addNodeBefore("f", "b")
-	dlst.addNodeBefore("h", "e")
-	dlst.addNodeAfter("k", "d")
+	dlst.append("1")
+	dlst.append("2")
+	dlst.append("3")
+	dlst.append("4")
+	dlst.deleteNode("3")
 	dlst.print_list()
 }
