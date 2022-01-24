@@ -127,6 +127,20 @@ func (l *DoublyLinkedList) deleteNode(key string) {
 	}
 }
 
+func (l *DoublyLinkedList) reverse() {
+	current_node := l.head
+	var tmp_node *Node
+	for current_node != nil {
+		tmp_node = current_node.prev
+		current_node.prev = current_node.next
+		current_node.next = tmp_node
+		current_node = current_node.prev
+	}
+	if tmp_node != nil {
+		l.head = tmp_node.prev
+	}
+}
+
 func (l *DoublyLinkedList) print_list() {
 	current_node := l.head
 	for current_node != nil {
@@ -142,6 +156,9 @@ func main() {
 	dlst.append("2")
 	dlst.append("3")
 	dlst.append("4")
-	dlst.deleteNode("3")
 	dlst.print_list()
+	fmt.Println()
+	dlst.reverse()
+	dlst.print_list()
+
 }
