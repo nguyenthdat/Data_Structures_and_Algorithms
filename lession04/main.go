@@ -19,6 +19,28 @@ type Node struct {
 	Data  int
 }
 
+type Queue struct {
+	items []int
+}
+
+func (q Queue) enQueue(item int) {
+	q.items = append(q.items, item)
+}
+
+func (q Queue) deQueue() {
+	if !q.isEmpty() {
+		//return q.items.pop()
+	}
+}
+
+func (q Queue) pop() Queue {
+	return q
+}
+
+func (q Queue) isEmpty() bool {
+	return true
+}
+
 type BinaryTree struct {
 	Root *Node
 }
@@ -48,6 +70,10 @@ func inOrder(root *Node) {
 	inOrder(root.Left)
 	fmt.Printf("%d - ", root.Data)
 	inOrder(root.Right)
+}
+
+func levelOrder(root *Node) {
+
 }
 
 func main() {
